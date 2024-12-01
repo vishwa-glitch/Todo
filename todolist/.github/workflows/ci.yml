@@ -1,0 +1,122 @@
+name: Django Todo App CI/CD
+
+# Trigger on push and pull requests to main branch
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# Jobs to run
+jobs:
+  # Linting and Code Quality Check
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 black
+
+    # Run Flake8 for linting
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    
+    # Run Black for code formatting
+    - name: Check formatting with Black
+      run: |
+        black --check .
+
+  # Testing Job
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11']
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install System Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-dev default-libmysqlclient-dev build-essential
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run Unit Tests
+      run: |
+      python manage.py test tests.test_models tests.test_serializers --verbosity 2
+
+    # Generate and upload coverage report
+    - name: Generate Coverage Report
+      run: |
+        pip install coverage
+        coverage run --source='.' manage.py test tests.test_models tests.test_serializers tests.test_views tests.test_admin
+        coverage xml
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        fail_ci_if_error: true
+
+  # Optional Deployment Job
+  deploy:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.11'
+    
+    # Placeholder for deployment script
+    - name: Deploy to PythonAnywhere
+      env:
+        PYTHONANYWHERE_USERNAME: ${{ secrets.PYTHONANYWHERE_USERNAME }}
+        PYTHONANYWHERE_TOKEN: ${{ secrets.PYTHONANYWHERE_TOKEN }}
+      run: |
+        pip install requests
+        python -c "
+import requests
+import os
+
+env:
+  PYTHONANYWHERE_USERNAME: ${{ secrets.PYTHONANYWHERE_USERNAME }}
+  PYTHONANYWHERE_TOKEN: ${{ secrets.PYTHONANYWHERE_TOKEN }}
+
+# PythonAnywhere API call to reload your web app
+response = requests.post(
+    f'https://www.pythonanywhere.com/api/v0/user/{username}/webapps/{username}.pythonanywhere.com/reload/',
+    headers={'Authorization': f'Token {token}'}
+)
+
+if response.status_code == 200:
+    print('Deployment successful')
+else:
+    print('Deployment failed')
+    print(response.text)
+    exit(1)
+"
