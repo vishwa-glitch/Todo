@@ -65,7 +65,7 @@ jobs:
     - name: Run Unit Tests
       run: |
         python manage.py test --verbosity 2
-    
+      working-directory: ./todolist  # Specify the directory where manage.py is located
     # Generate Coverage Report
     - name: Generate Coverage Report
       run: |

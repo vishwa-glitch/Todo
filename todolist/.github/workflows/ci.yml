@@ -100,23 +100,3 @@ jobs:
       run: |
         pip install requests
         python -c "
-import requests
-import os
-
-env:
-  PYTHONANYWHERE_USERNAME: ${{ secrets.PYTHONANYWHERE_USERNAME }}
-  PYTHONANYWHERE_TOKEN: ${{ secrets.PYTHONANYWHERE_TOKEN }}
-
-# PythonAnywhere API call to reload your web app
-response = requests.post(
-    f'https://www.pythonanywhere.com/api/v0/user/{username}/webapps/{username}.pythonanywhere.com/reload/',
-    headers={'Authorization': f'Token {token}'}
-)
-
-if response.status_code == 200:
-    print('Deployment successful')
-else:
-    print('Deployment failed')
-    print(response.text)
-    exit(1)
-"
