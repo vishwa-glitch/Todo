@@ -1,7 +1,5 @@
 django
 djangorestframework
-selenium
-webdriver-manager
 coverage
 flake8
 black
