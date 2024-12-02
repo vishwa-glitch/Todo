@@ -56,6 +56,15 @@ A Django-based Todo List application developed for AlgoBulls Backend Developer I
 python manage.py test tests
 ```
 
+# Install coverage
+```bash
+pip install coverage
+
+# Run tests with coverage
+coverage run --source='.' manage.py test
+coverage html  # Generate HTML report
+coverage report  # Print report to console
+```
 ## Coverage Report
 ![image](https://github.com/user-attachments/assets/f77c29c0-d89b-4ad1-a1a1-4566c346c5b8)
 
