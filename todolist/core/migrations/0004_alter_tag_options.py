@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0003_tag_unique_lowercase_tag_name'),
+        ("core", "0003_tag_unique_lowercase_tag_name"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='tag',
+            name="tag",
             options={},
         ),
     ]

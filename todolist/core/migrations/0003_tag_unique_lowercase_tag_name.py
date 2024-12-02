@@ -7,12 +7,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0002_alter_tag_name_alter_todo_created_at_and_more'),
+        ("core", "0002_alter_tag_name_alter_todo_created_at_and_more"),
     ]
 
     operations = [
         migrations.AddConstraint(
-            model_name='tag',
-            constraint=models.UniqueConstraint(django.db.models.functions.text.Lower('name'), name='unique_lowercase_tag_name'),
+            model_name="tag",
+            constraint=models.UniqueConstraint(
+                django.db.models.functions.text.Lower("name"),
+                name="unique_lowercase_tag_name",
+            ),
         ),
     ]

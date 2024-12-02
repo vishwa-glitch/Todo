@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0004_alter_tag_options'),
+        ("core", "0004_alter_tag_options"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='todo',
-            name='description',
-            field=models.TextField(blank=True, help_text='Detailed description of the task (max 1000 characters)', max_length=1000, null=True),
+            model_name="todo",
+            name="description",
+            field=models.TextField(
+                blank=True,
+                help_text="Detailed description of the task (max 1000 characters)",
+                max_length=1000,
+                null=True,
+            ),
         ),
     ]

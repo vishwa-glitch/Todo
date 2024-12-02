@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0005_alter_todo_description'),
+        ("core", "0005_alter_todo_description"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='todo',
-            name='tags',
-            field=models.ManyToManyField(blank=True, help_text='Optional tags associated with the task', related_name='todos', to='core.tag'),
+            model_name="todo",
+            name="tags",
+            field=models.ManyToManyField(
+                blank=True,
+                help_text="Optional tags associated with the task",
+                related_name="todos",
+                to="core.tag",
+            ),
         ),
     ]
