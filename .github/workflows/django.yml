@@ -60,12 +60,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    
+        working-directory: ./  # Specify the directory where manage.py is located
     # Run Unit Tests
     - name: Run Unit Tests
       run: |
         python manage.py test --verbosity 2
-      working-directory: ./todolist/core/tests  # Specify the directory where manage.py is located
+      working-directory: ./todolist  # Specify the directory where manage.py is located
     # Generate Coverage Report
     - name: Generate Coverage Report
       run: |
