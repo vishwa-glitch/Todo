@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .models import Todo
 from .serializers import TodoSerializer
 
+
 class TodoViewSet(viewsets.ModelViewSet):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
@@ -28,8 +29,10 @@ class TodoViewSet(viewsets.ModelViewSet):
 
         self.perform_update(serializer)
         return Response(serializer.data)
-    
+
+
 from django.shortcuts import render
 
+
 def todo_app_view(request):
-    return render(request, 'todo_app.html')
+    return render(request, "todo_app.html")

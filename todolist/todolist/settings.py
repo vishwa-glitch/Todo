@@ -57,7 +57,7 @@ ROOT_URLCONF = "todolist.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        'DIRS': [BASE_DIR / 'core' / 'templates'], 
+        "DIRS": [BASE_DIR / "core" / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -134,4 +134,4 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ],
 }
-TEST_RUNNER = 'core.tests.test_runners.CustomTestRunner'
+TEST_RUNNER = "core.tests.test_runners.CustomTestRunner"

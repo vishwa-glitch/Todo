@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import UniqueConstraint
 from django.db.models.functions import Lower
 
+
 class Todo(models.Model):
     # Choices for task status
     STATUS_CHOICES = [
@@ -93,6 +94,7 @@ class Todo(models.Model):
         ordering = ["-created_at"]  # Sort tasks by newest first
         verbose_name = "Todo Item"  # Singular form for admin
         verbose_name_plural = "Todo Items"  # Plural form for admin
+
 
 class Tag(models.Model):
     """

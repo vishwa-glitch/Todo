@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
+
 class E2ETestCase(LiveServerTestCase):
     def setUp(self):
         service = Service(ChromeDriverManager().install())
@@ -59,10 +60,7 @@ class E2ETestCase(LiveServerTestCase):
 
         # Wait for todo to render
         WebDriverWait(self.driver, 10).until(
-            EC.text_to_be_present_in_element(
-                (By.ID, "todoList"),
-                "Test Task"
-            )
+            EC.text_to_be_present_in_element((By.ID, "todoList"), "Test Task")
         )
 
         # Additional pause to show list
@@ -136,5 +134,5 @@ class E2ETestCase(LiveServerTestCase):
         self.assertNotIn("Test Task", self.driver.page_source)
 
     def tearDown(self):
-        if hasattr(self, 'driver'):
+        if hasattr(self, "driver"):
             self.driver.quit()
