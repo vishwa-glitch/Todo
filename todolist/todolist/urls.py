@@ -21,6 +21,4 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("core/", include("core.urls")),
-    # Enabled session-based authentication for browsable API
-    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]

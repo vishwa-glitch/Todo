@@ -1,5 +1,0 @@
-django
-djangorestframework
-coverage
-flake8
-black

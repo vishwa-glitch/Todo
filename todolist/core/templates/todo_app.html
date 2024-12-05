@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List App</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        form { background: #f4f4f4; padding: 20px; margin-bottom: 20px; }
+        input, textarea, select { width: 100%; margin-bottom: 10px; padding: 5px; }
+        button { padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Todo List App</h1>
+    
+    <form id="todoForm">
+        <input type="text" id="title" name="title" placeholder="Task Title" required maxlength="100">
+        <textarea id="description" name="description" placeholder="Task Description" required maxlength="1000"></textarea>
+        <input type="date" id="dueDate" name="dueDate">
+        <input type="text" id="tags" name="tags" placeholder="Comma-separated tags">
+        <select id="status" name="status">
+            <option value="OPEN">OPEN</option>
+            <option value="WORKING">WORKING</option>
+            <option value="PENDING REVIEW">PENDING REVIEW</option>
+            <option value="COMPLETED">COMPLETED</option>
+            <option value="OVERDUE">OVERDUE</option>
+            <option value="CANCELLED">CANCELLED</option>
+        </select>
+        <input type="hidden" id="todoId" name="todoId">
+        <button type="submit" id="submitButton">Create Todo</button>
+    </form>
+
+    <table id="todoTable">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="todoList">
+            <!-- Todos will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <script>
+        const form = document.getElementById('todoForm');
+        const todoList = document.getElementById('todoList');
+        let todos = [];
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const dueDate = document.getElementById('dueDate').value;
+            const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim()).filter(tag => tag);
+            const status = document.getElementById('status').value;
+            const todoId = document.getElementById('todoId').value;
+
+            if (todoId) {
+                // Update existing todo
+                const index = todos.findIndex(todo => todo.id === todoId);
+                if (index !== -1) {
+                    todos[index] = { id: todoId, title, description, dueDate, tags, status };
+                }
+            } else {
+                // Create new todo
+                const newTodo = { 
+                    id: Date.now().toString(), 
+                    title, 
+                    description, 
+                    dueDate, 
+                    tags, 
+                    status 
+                };
+                todos.push(newTodo);
+            }
+
+            renderTodos();
+            form.reset();
+            document.getElementById('submitButton').textContent = 'Create Todo';
+        });
+
+        function renderTodos() {
+            todoList.innerHTML = '';
+            todos.forEach(todo => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${todo.title}</td>
+                    <td>${todo.description}</td>
+                    <td>${todo.dueDate || 'No due date'}</td>
+                    <td>${todo.status}</td>
+                    <td>
+                        <button onclick="editTodo('${todo.id}')">Edit</button>
+                        <button onclick="deleteTodo('${todo.id}')">Delete</button>
+                    </td>
+                `;
+                todoList.appendChild(row);
+            });
+        }
+
+        function editTodo(id) {
+            const todo = todos.find(t => t.id === id);
+            if (todo) {
+                document.getElementById('title').value = todo.title;
+                document.getElementById('description').value = todo.description;
+                document.getElementById('dueDate').value = todo.dueDate;
+                document.getElementById('tags').value = todo.tags.join(', ');
+                document.getElementById('status').value = todo.status;
+                document.getElementById('todoId').value = todo.id;
+                document.getElementById('submitButton').textContent = 'Update Todo';
+            }
+        }
+
+        function deleteTodo(id) {
+            todos = todos.filter(todo => todo.id !== id);
+            renderTodos();
+        }
+    </script>
+</body>
+</html>
