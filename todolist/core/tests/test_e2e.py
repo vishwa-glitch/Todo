@@ -10,8 +10,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 class E2ETestCase(LiveServerTestCase):
     def setUp(self):
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")  # Run Chrome in headless mode
+        options.add_argument("--no-sandbox")  # Required for certain CI environments
+        options.add_argument("--disable-dev-shm-usage")  # Prevent shared memory issues
+
         service = Service(ChromeDriverManager().install())
-        self.driver = webdriver.Chrome(service=service)
+        self.driver = webdriver.Chrome(service=service, options=options)
         self.driver.implicitly_wait(10)
 
     def test_create_todo_item(self):
