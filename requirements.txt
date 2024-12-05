@@ -4,3 +4,4 @@ mysql-connector-python==8.0.32
 pytest==7.2.1
 coverage==7.1.0
 selenium==4.8.2
+webdriver-manager
