@@ -69,6 +69,7 @@ The To-Do List application is a Django-based project that allows users to manage
    ```bash
    open htmlcov/index.html
    ```
+![Coverage report](https://github.com/user-attachments/assets/24fec621-6e3c-4a5b-aa12-6b3c8f92e3a3)
 
 ---
 
