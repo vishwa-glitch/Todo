@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .models import Todo
 from .serializers import TodoSerializer
 
+
 class TodoViewSet(viewsets.ModelViewSet):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
@@ -17,7 +18,6 @@ class TodoViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         # Automatically associate the authenticated user with the Todo
         serializer.save(user=self.request.user)
-
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop("partial", False)

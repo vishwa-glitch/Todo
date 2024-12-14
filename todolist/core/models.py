@@ -22,10 +22,10 @@ class Todo(models.Model):
         auto_now_add=True, help_text="Timestamp of task creation (automatically set)"
     )
     user = models.ForeignKey(
-    User, 
-    on_delete=models.CASCADE, 
-    related_name='todos',
-    help_text="User who created the todo"
+        User,
+        on_delete=models.CASCADE,
+        related_name="todos",
+        help_text="User who created the todo",
     )
     # Title of the task, mandatory field with max length
     title = models.CharField(
@@ -109,10 +109,10 @@ class Tag(models.Model):
 
     name = models.CharField(max_length=50, help_text="Unique tag name")
     user = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE, 
-        related_name='tags',
-        help_text="User who created the tag"
+        User,
+        on_delete=models.CASCADE,
+        related_name="tags",
+        help_text="User who created the tag",
     )
 
     # Clean method to normalize tag name
@@ -133,8 +133,6 @@ class Tag(models.Model):
         # Unique constraint for lowercase tag name per user
         constraints = [
             UniqueConstraint(
-                Lower("name"), 
-                "user", 
-                name="unique_lowercase_tag_name_per_user"
+                Lower("name"), "user", name="unique_lowercase_tag_name_per_user"
             )
         ]

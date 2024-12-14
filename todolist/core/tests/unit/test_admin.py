@@ -16,6 +16,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class AdminTests(TestCase):
     def setUp(self):
         # Create a superuser
@@ -51,7 +52,6 @@ class AdminTests(TestCase):
         self.todo1.tags.add(self.tag)
         self.todo2.tags.add(self.tag)
 
-
     def test_todo_admin_list_view(self):
         # Test that the Todo admin list view works
         url = reverse("admin:core_todo_changelist")
@@ -71,7 +71,7 @@ class AdminTests(TestCase):
             title="Test Todo",
             description="A test description",
             status="OPEN",
-            user = self.user
+            user=self.user,
         )
         todo.status = "COMPLETED"
         todo.save()
@@ -97,7 +97,7 @@ class AdminTests(TestCase):
             description="This is a test todo item",
             status="OPEN",
             due_date=future_due_date,
-            user = self.user
+            user=self.user,
         )
 
         self.assertEqual(todo.due_date, future_due_date)
@@ -110,7 +110,7 @@ class AdminTests(TestCase):
 
     def test_todo_count_with_no_todos(self):
         # Test todo_count when there are no related Todos
-        empty_tag = Tag.objects.create(name="Empty List", user = self.user)
+        empty_tag = Tag.objects.create(name="Empty List", user=self.user)
         count = empty_tag.todo_count()
         self.assertEqual(count, "0")  # Ensure it returns "0" as a string
 
@@ -130,11 +130,13 @@ class AdminTests(TestCase):
         # Test that the todo_count method works in TagAdmin
 
         # Fetch the admin change list for the Tag model
-        response = self.client.get(reverse("admin:core_tag_changelist"))  # Replace 'app' with your app's name
+        response = self.client.get(
+            reverse("admin:core_tag_changelist")
+        )  # Replace 'app' with your app's name
 
         # Check if the count of todos for the tag is correct
         # 'Python' tag should have 2 associated todos
-        self.assertContains(response, "2") 
+        self.assertContains(response, "2")
 
     def test_save_model_validates_and_saves_object(self):
         # Step 1: Initialize the admin instance

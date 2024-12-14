@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
+
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
@@ -22,8 +23,8 @@ class TodoSerializer(serializers.ModelSerializer):
         errors = {}
 
         # Check required fields
-        if self.context['request'].method in ['POST']:
-            required_fields = ['title']
+        if self.context["request"].method in ["POST"]:
+            required_fields = ["title"]
             errors = {}
             for field in required_fields:
                 if field not in data or not data[field]:
@@ -35,18 +36,19 @@ class TodoSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(errors)
 
         return data
-    
+
     def validate_tags(self, value):
         MAX_TAGS = 5
         if value and len(value) > MAX_TAGS:
             raise serializers.ValidationError(f"Cannot add more than {MAX_TAGS} tags.")
-        
+
         # Check for duplicate tags (case-insensitive)
         tag_names = [tag["name"].strip().lower() for tag in value]
         if len(tag_names) != len(set(tag_names)):
             raise serializers.ValidationError("Tags must be unique.")
-        
+
         return value
+
     def validate_due_date(self, value):
         if value and value < timezone.now():
             raise serializers.ValidationError("Due date cannot be in the past.")
@@ -67,14 +69,14 @@ class TodoSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Pop out 'user' from validated_data if it's present to avoid duplication
-        user = validated_data.pop('user', None)
+        user = validated_data.pop("user", None)
 
         # If 'user' is not found in validated_data, get it from the context
-        if not user and 'request' in self.context:
-            user = self.context['request'].user
+        if not user and "request" in self.context:
+            user = self.context["request"].user
 
         tags_data = validated_data.pop("tags", [])
-        
+
         # Create the todo item
         todo = Todo.objects.create(user=user, **validated_data)
 
@@ -84,10 +86,7 @@ class TodoSerializer(serializers.ModelSerializer):
                 tag, _ = Tag.objects.get_or_create(
                     name__iexact=tag_data["name"],
                     user=user,  # Use the todo's user for the tag
-                    defaults={
-                        "name": tag_data["name"].strip().lower(),
-                        "user": user
-                    }
+                    defaults={"name": tag_data["name"].strip().lower(), "user": user},
                 )
                 todo.tags.add(tag)
 
@@ -95,11 +94,11 @@ class TodoSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # Pop out 'user' from validated_data if it's present to avoid duplication
-        user = validated_data.pop('user', None)
+        user = validated_data.pop("user", None)
 
         # If 'user' is not found in validated_data, get it from the context
-        if not user and 'request' in self.context:
-            user = self.context['request'].user
+        if not user and "request" in self.context:
+            user = self.context["request"].user
 
         tags_data = validated_data.pop("tags", None)
 
@@ -117,10 +116,7 @@ class TodoSerializer(serializers.ModelSerializer):
                 tag, _ = Tag.objects.get_or_create(
                     name__iexact=tag_data["name"],
                     user=user,  # Ensure tag is associated with todo's user
-                    defaults={
-                        "name": tag_data["name"].strip().lower(),
-                        "user": user
-                    }
+                    defaults={"name": tag_data["name"].strip().lower(), "user": user},
                 )
                 instance.tags.add(tag)
 

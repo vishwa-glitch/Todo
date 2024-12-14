@@ -30,23 +30,20 @@ class TodoAPITestCase(APITestCase):
 
         # Create sample todo items
         self.todo1 = Todo.objects.create(
-            title="First Todo", 
-            description="First Description", 
+            title="First Todo",
+            description="First Description",
             status="OPEN",
-            user=self.user
+            user=self.user,
         )
         self.todo2 = Todo.objects.create(
-            title="Second Todo", 
-            description="Second Description", 
+            title="Second Todo",
+            description="Second Description",
             status="WORKING",
-            user=self.user
+            user=self.user,
         )
 
         # Create a tag for testing
-        self.tag = Tag.objects.create(
-            name="Personal", 
-            user=self.user
-        )
+        self.tag = Tag.objects.create(name="Personal", user=self.user)
 
     def test_create_todo_item_with_tags(self):
         """
@@ -101,9 +98,7 @@ class TodoAPITestCase(APITestCase):
         """
         Test partial update of a todo item
         """
-        updated_data = {
-            "status": "COMPLETED"
-        }
+        updated_data = {"status": "COMPLETED"}
         response = self.client.patch(
             f"/core/api/todos/{self.todo1.id}/", updated_data, format="json"
         )
@@ -128,7 +123,10 @@ class TodoAPITestCase(APITestCase):
         data = {
             "title": "New Todo",
             "description": "Description",
-            "tags": [{"name": "Personal"}, {"name": "personal"}],  # Case-insensitive duplicate
+            "tags": [
+                {"name": "Personal"},
+                {"name": "personal"},
+            ],  # Case-insensitive duplicate
         }
         response = self.client.post("/core/api/todos/", data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -203,13 +201,13 @@ class TodoAPITestCase(APITestCase):
                 {"name": "Work"},
                 {"name": "Urgent"},
                 {"name": "Project"},
-                {"name": "Important"}
+                {"name": "Important"},
             ],
         }
         response = self.client.post("/core/api/todos/", data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(len(response.data["tags"]), 5)
-        
+
     def test_create_todo_exceed_max_tags(self):
         """
         Test creating a todo with more than maximum allowed tags
@@ -223,7 +221,7 @@ class TodoAPITestCase(APITestCase):
                 {"name": "Urgent"},
                 {"name": "Project"},
                 {"name": "Important"},
-                {"name": "Extra"}
+                {"name": "Extra"},
             ],
         }
         response = self.client.post("/core/api/todos/", data, format="json")

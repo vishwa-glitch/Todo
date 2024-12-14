@@ -6,6 +6,7 @@ from core.models import Todo, Tag
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 
+
 class TodoModelTest(TestCase):
     def setUp(self):
         # Create a user for the tests
@@ -61,7 +62,7 @@ class TodoModelTest(TestCase):
                 title="Past Due Todo",
                 description="Past Due Description",
                 due_date=past_date,
-                user=self.user
+                user=self.user,
             )
             invalid_todo.full_clean()
 
@@ -70,7 +71,9 @@ class TodoModelTest(TestCase):
         Test validation prevents empty title
         """
         with self.assertRaises(ValidationError):
-            invalid_todo = Todo(title="", description="Some Description", user=self.user)
+            invalid_todo = Todo(
+                title="", description="Some Description", user=self.user
+            )
             invalid_todo.full_clean()
 
     def test_todo_tag_assignment(self):
@@ -83,8 +86,12 @@ class TodoModelTest(TestCase):
         # Create tags and associate them with the user, making sure no duplicates (case-insensitive)
         tags = []
         for name in tag_names:
-            normalized_name = name.strip().lower()  # Normalize to lowercase to prevent duplicates
-            tag, created = Tag.objects.get_or_create(name=normalized_name, user=self.user)
+            normalized_name = (
+                name.strip().lower()
+            )  # Normalize to lowercase to prevent duplicates
+            tag, created = Tag.objects.get_or_create(
+                name=normalized_name, user=self.user
+            )
             tags.append(tag)
 
         # Assign the tags to the Todo item
@@ -95,7 +102,6 @@ class TodoModelTest(TestCase):
         tag_names = [tag.name for tag in self.todo.tags.all()]
         self.assertIn("work", tag_names)
         self.assertIn("urgent", tag_names)
-
 
     def test_tag_creation_and_normalization(self):
         """
@@ -130,7 +136,7 @@ class TagModelTest(TestCase):
         """
         tag = Tag.objects.create(name="python", user=self.user)
         tag.clean()  # Manually call the clean method to normalize the name
-        
+
         # Attempting to create a tag with same name (different case) for the same user should fail
         with self.assertRaises(Exception):
             Tag.objects.create(name="Python", user=self.user)
@@ -153,7 +159,7 @@ class TagModelTest(TestCase):
             description="Description",
             due_date=timezone.now() + timedelta(days=1),
             status="OPEN",
-            user=self.user
+            user=self.user,
         )
 
         # Check that no tags are associated
@@ -166,7 +172,7 @@ class TagModelTest(TestCase):
             description="Test Naive Todo",
             due_date=naive_due_date,
             status="OPEN",
-            user=self.user
+            user=self.user,
         )
 
         todo_naive.clean()
@@ -188,7 +194,7 @@ class TagModelTest(TestCase):
             description="Test Aware Todo",
             due_date=aware_due_date,
             status="OPEN",
-            user=self.user
+            user=self.user,
         )
 
         todo_aware.clean()
@@ -207,16 +213,16 @@ class TagModelTest(TestCase):
             description="Test Naive to Aware Conversion",
             due_date=naive_due_date,
             status="OPEN",
-            user=self.user
+            user=self.user,
         )
 
         # Verify that the due_date is now aware
         self.assertTrue(timezone.is_aware(todo.due_date))
-        
+
         # Verify that the timezone matches the current timezone
         self.assertEqual(
             todo.due_date.tzinfo.tzname(None),
-            timezone.get_current_timezone().tzname(None)
+            timezone.get_current_timezone().tzname(None),
         )
 
     def test_due_date_invalid(self):
@@ -227,7 +233,7 @@ class TagModelTest(TestCase):
             description="Test Invalid Todo",
             due_date=invalid_due_date,  # Use a valid datetime here
             status="OPEN",
-            user=self.user
+            user=self.user,
         )
         # Check if clean method raises a ValidationError for invalid due_date
         with self.assertRaises(ValidationError):
