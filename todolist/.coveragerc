@@ -1,15 +1,13 @@
-# Coverage configuration
-# .coveragerc
 [run]
-source = core
+source = .
 omit = 
     */migrations/*
+    */settings/*
+    */__init__.py
     */tests/*
+    manage.py
+    env/*
+    venv/*
+    */asgi.py
+    */wsgi.py
 
-[report]
-exclude_lines =
-    pragma: no cover
-    def __str__
-    raise NotImplementedError
-    if __name__ == '__main__':
-    pass

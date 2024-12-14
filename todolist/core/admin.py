@@ -86,7 +86,7 @@ class TagAdmin(admin.ModelAdmin):
     search_fields = ["name"]
 
     def todo_count(self, obj):
-        count = obj.todo_set.count()
+        count = obj.todos.count()
         return str(count)  # Explicitly convert to string
 
     todo_count.short_description = "Number of Todos"

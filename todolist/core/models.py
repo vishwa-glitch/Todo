@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.db.models import UniqueConstraint
@@ -20,7 +21,12 @@ class Todo(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True, help_text="Timestamp of task creation (automatically set)"
     )
-
+    user = models.ForeignKey(
+    User, 
+    on_delete=models.CASCADE, 
+    related_name='todos',
+    help_text="User who created the todo"
+    )
     # Title of the task, mandatory field with max length
     title = models.CharField(
         max_length=100,  # Enforces max length
@@ -102,6 +108,12 @@ class Tag(models.Model):
     """
 
     name = models.CharField(max_length=50, help_text="Unique tag name")
+    user = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name='tags',
+        help_text="User who created the tag"
+    )
 
     # Clean method to normalize tag name
     def clean(self):
@@ -118,7 +130,11 @@ class Tag(models.Model):
         return str(self.todos.count())  # Count associated todos
 
     class Meta:
-        # Unique constraint for lowercase tag names
+        # Unique constraint for lowercase tag name per user
         constraints = [
-            UniqueConstraint(Lower("name"), name="unique_lowercase_tag_name")
+            UniqueConstraint(
+                Lower("name"), 
+                "user", 
+                name="unique_lowercase_tag_name_per_user"
+            )
         ]

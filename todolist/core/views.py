@@ -5,21 +5,19 @@ from rest_framework.response import Response
 from .models import Todo
 from .serializers import TodoSerializer
 
-
 class TodoViewSet(viewsets.ModelViewSet):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+    def get_queryset(self):
+        # Restrict queryset to only objects owned by the authenticated user
+        return Todo.objects.filter(user=self.request.user)
 
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
+    def perform_create(self, serializer):
+        # Automatically associate the authenticated user with the Todo
+        serializer.save(user=self.request.user)
+
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop("partial", False)
