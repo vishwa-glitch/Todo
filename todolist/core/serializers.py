@@ -12,14 +12,11 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class TodoSerializer(serializers.ModelSerializer):
-    # Comprehensive serializer for Todo model,
-    # Handles complex serialization and validation requirements
     tags = TagSerializer(many=True, required=False)
     status = serializers.CharField(required=False)  # or other appropriate field type
     description = serializers.CharField(required=False)  # Make this optional
 
     def validate(self, data):
-        # Comprehensive validation
         errors = {}
 
         # Check required fields
@@ -68,10 +65,8 @@ class TodoSerializer(serializers.ModelSerializer):
         read_only_fields = ["created_at"]
 
     def create(self, validated_data):
-        # Pop out 'user' from validated_data if it's present to avoid duplication
         user = validated_data.pop("user", None)
 
-        # If 'user' is not found in validated_data, get it from the context
         if not user and "request" in self.context:
             user = self.context["request"].user
 

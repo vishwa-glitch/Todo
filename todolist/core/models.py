@@ -61,7 +61,7 @@ class Todo(models.Model):
     # Many-to-Many relationship for tags
     tags = models.ManyToManyField(
         "Tag",
-        blank=True,  # Optional relationship
+        blank=True,
         help_text="Optional tags associated with the task",
         related_name="todos",
     )
@@ -76,7 +76,6 @@ class Todo(models.Model):
         # Prevent due dates in the past
         if self.due_date and self.due_date < timezone.now():
             raise ValidationError("Due date cannot be in the past.")
-        # Ensure title is not empty
         if not self.title:
             raise ValidationError("Title cannot be empty.")
 
