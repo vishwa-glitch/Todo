@@ -81,11 +81,6 @@ The application is deployed on **PythonAnywhere**.
 
 ---
 
-### **6. Postman Collection**
-The API endpoints for the To-Do List application are documented in a public Postman collection.  
-#### **Access the Collection**:
-[Postman Collection Link](https://www.postman.com/vishwa1234567/algobulls-backend-developer-web-coding-assignment/collection/f4dfe1c/todo-api-crud-operations?action=share&creator=38966661)
-
 #### **Endpoints**:
 - **`GET /core/api/todos/`**: Retrieve all tasks.
 - **`POST /core/api/todos/`**: Create a new task.
