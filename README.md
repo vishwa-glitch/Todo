@@ -75,10 +75,6 @@ The To-Do List application is a Django-based project that allows users to manage
 
 ### **4. Deployment**
 The application is deployed on **PythonAnywhere**.  
-#### **Access the App**:
-- **Main URL**: [To-Do List Application](https://vishwa55.pythonanywhere.com)  
-- **REST API Browsable Interface**: [API Endpoint](https://vishwa55.pythonanywhere.com/core/api/)
-
 ---
 
 #### **Endpoints**:
