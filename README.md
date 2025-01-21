@@ -118,15 +118,17 @@ Admin credentials:
 - Username: vishw
 - Password: vishwa123@
 ---
+### **5. Documentation**
+The complete documentation is hosted as a static site. You can access it [here](https://vishwa55.pythonanywhere.com/swagger/).
 
-### **5. CI/CD Integration**
+### **6. CI/CD Integration**
 This project uses **GitHub Actions** to automate:
 - Running unit, integration, and end-to-end tests on every commit.
 - Linting the codebase with Flake8 and formatting with Black to ensure PEP8 compliance.
 
 ---
 
-### **6. Screenshot**
+### **7. Screenshot**
 [Coverage report]
 
 ![image](https://github.com/user-attachments/assets/119d666b-1a42-4d6f-a9d4-019cb6f30771)
