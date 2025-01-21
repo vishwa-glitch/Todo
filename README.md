@@ -121,6 +121,7 @@ Admin credentials:
 ### **5. Documentation**
 The complete documentation is hosted as a static site. You can access it [here](https://vishwa55.pythonanywhere.com/swagger/).
 
+---
 ### **6. CI/CD Integration**
 This project uses **GitHub Actions** to automate:
 - Running unit, integration, and end-to-end tests on every commit.
