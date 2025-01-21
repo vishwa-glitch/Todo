@@ -41,14 +41,6 @@ The **To-Do List Application** is a Django-based backend project that enables us
    cd Todo
    ```
 
-2. **Set Up a Virtual Environment (Optional)**:
-   
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # For Linux/macOS
-   venv\Scripts\activate      # For Windows
-   ```
-
 3. **Install Dependencies**:
    
    ```bash
@@ -120,28 +112,17 @@ The **To-Do List Application** is a Django-based backend project that enables us
 ---
 
 ### **4. Deployment**
-The application is deployed on **PythonAnywhere**. Access the live version [here](#).
+The application is deployed on **PythonAnywhere**. Access the live version [here](https://vishwa55.pythonanywhere.com/).
 
+Admin credentials:
+- Username: vishw
+- Password: vishwa123@
 ---
 
 ### **5. CI/CD Integration**
 This project uses **GitHub Actions** to automate:
 - Running unit, integration, and end-to-end tests on every commit.
 - Linting the codebase with Flake8 and formatting with Black to ensure PEP8 compliance.
-
----
-
-### **6. Features Implemented**:
-- **Task Management**:
-  - Add, update, delete, and retrieve tasks.
-  - Ensure tasks have timestamps, titles, descriptions, due dates, tags, and statuses.
-- **Validation**:
-  - Prevent invalid operations (e.g., due dates earlier than creation timestamps).
-  - Ensure uniqueness for multiple tags on the same task.
-- **Admin Interface**:
-  - Filter and manage tasks directly from Django Admin.
-- **Postman Collection**:
-  - A working Postman Collection is shared to test all APIs.
 
 ---
 
