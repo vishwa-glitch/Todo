@@ -126,7 +126,7 @@ This project uses **GitHub Actions** to automate:
 
 ---
 
-### **7. Screenshot**
+### **6. Screenshot**
 [Coverage report]
 
 ![image](https://github.com/user-attachments/assets/119d666b-1a42-4d6f-a9d4-019cb6f30771)
