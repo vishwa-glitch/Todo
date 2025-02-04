@@ -110,18 +110,6 @@ The **To-Do List Application** is a Django-based backend project that enables us
 - End-to-end test recordings are available in the `videos` folder. 📂
 
 ---
-
-### **4. Deployment**
-The application is deployed on **PythonAnywhere**. Access the live version [here](https://vishwa55.pythonanywhere.com/).
-
-Admin credentials:
-- Username: vishw
-- Password: vishwa123@
----
-### **5. Documentation**
-The complete documentation is hosted as a static site. You can access it [here](https://vishwa55.pythonanywhere.com/swagger/).
-
----
 ### **6. CI/CD Integration**
 This project uses **GitHub Actions** to automate:
 - Running unit, integration, and end-to-end tests on every commit.
